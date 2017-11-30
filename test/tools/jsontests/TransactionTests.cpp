@@ -121,8 +121,6 @@ void TestTransactionTest(json_spirit::mObject const& _o)
 {
 	BOOST_REQUIRE(_o.count("rlp") > 0);
 	Transaction txFromRlp;
-	bytes stream = importByteArray(_o.at("rlp").get_str());
-	RLP rlp(stream);
 	string const& testname = TestOutputHelper::get().testName();
 
 	// Theoretical block for transaction check
@@ -138,6 +136,9 @@ void TestTransactionTest(json_spirit::mObject const& _o)
 		mObject obj = _o.at(networkname).get_obj();
 		try
 		{
+			bytes stream = importByteArray(_o.at("rlp").get_str());
+			RLP rlp(stream);
+
 			txFromRlp = Transaction(rlp.data(), CheckTransaction::Everything);
 			bool onConstantinople = (network == eth::Network::ConstantinopleTest);
 			bool onConstantinopleAndZeroSig = onConstantinople && txFromRlp.hasZeroSignature();
@@ -233,5 +234,6 @@ BOOST_AUTO_TEST_CASE(ttRSValue){}
 BOOST_AUTO_TEST_CASE(ttValue){}
 BOOST_AUTO_TEST_CASE(ttVValue){}
 BOOST_AUTO_TEST_CASE(ttSignature){}
+BOOST_AUTO_TEST_CASE(ttWrongRLP){}
 
 BOOST_AUTO_TEST_SUITE_END()
