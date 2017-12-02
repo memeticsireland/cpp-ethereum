@@ -84,7 +84,7 @@ defaults:
   upload-coverage-data: &upload-coverage-data
     run:
       name: "Upload coverage data"
-      command: codecov --required --gcov-exec "$GCOV"
+      command: codecov --required --gcov-exec "$GCOV" --gcov-root build
 
   linux-steps: &linux-steps
     - checkout
@@ -136,7 +136,7 @@ jobs:
   macOS-XCode9:
     environment:
       - CXX: clang++
-      - GCOV: llvm-cov gcov
+      - GCOV: gcov
       - GENERATOR: Ninja
       - BUILD_PARALLEL_JOBS: 8
       - TEST_PARALLEL_JOBS: 8
